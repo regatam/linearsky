@@ -1,0 +1,48 @@
+{
+  "name": "linearsky",
+  "version": "0.1.0",
+  "description": "A local-first bird's-eye calendar for Linear projects",
+  "license": "MIT",
+  "type": "module",
+  "bin": {
+    "linearsky": "dist/cli/index.js"
+  },
+  "files": [
+    "dist",
+    "docs",
+    "skills",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
+    "build": "npm run clean && npm run build:client && npm run build:node",
+    "prepack": "npm run build",
+    "build:client": "vite build",
+    "build:node": "tsc -p tsconfig.node.json",
+    "dev": "vite",
+    "typecheck": "tsc -p tsconfig.json --noEmit && tsc -p tsconfig.node.json --noEmit",
+    "test": "vitest run",
+    "test:e2e": "npm run build && playwright test",
+    "e2e:server": "LINEARSKY_FIXTURE=1 LINEARSKY_NO_OPEN=1 node dist/cli/index.js start --port 4173"
+  },
+  "dependencies": {
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "react-markdown": "10.1.0",
+    "yaml": "2.9.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.62.1",
+    "@types/node": "26.1.2",
+    "@types/react": "19.2.18",
+    "@types/react-dom": "19.2.4",
+    "@vitejs/plugin-react": "6.0.5",
+    "typescript": "7.0.2",
+    "vite": "8.2.0",
+    "vitest": "4.1.10"
+  }
+}
