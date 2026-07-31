@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1440" height="810" viewBox="0 0 1440 810" role="img" aria-labelledby="title description">
+  <title id="title">linearsky screenshot placeholder</title>
+  <desc id="description">A dark portfolio calendar with colored project paths.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#10131e"/><stop offset="1" stop-color="#090b11"/></linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#6658dc"/><stop offset="1" stop-color="#9182ff"/></linearGradient>
+  </defs>
+  <rect width="1440" height="810" rx="24" fill="url(#bg)"/>
+  <rect x="48" y="36" width="1344" height="52" rx="12" fill="#171b27" stroke="#292d3b"/>
+  <rect x="70" y="53" width="18" height="18" rx="5" fill="url(#purple)"/><text x="99" y="69" fill="#f2f3f7" font-family="system-ui" font-weight="700" font-size="16">linearsky</text>
+  <text x="70" y="166" fill="#9182ff" font-family="system-ui" font-size="11" font-weight="700" letter-spacing="2">COMPANY SKY</text>
+  <text x="70" y="218" fill="#f2f3f7" font-family="system-ui" font-size="44" font-weight="600">Everything in flight, seen from above.</text>
+  <rect x="70" y="274" width="1010" height="466" rx="18" fill="#11141e" stroke="#292d3b"/>
+  <rect x="1098" y="274" width="272" height="466" rx="18" fill="#11141e" stroke="#292d3b"/>
+  <g stroke="#292d3b"><path d="M270 338V700M390 338V700M510 338V700M630 338V700M750 338V700M870 338V700M990 338V700"/><path d="M70 338H1080M70 430H1080M70 522H1080M70 614H1080"/></g>
+  <g font-family="system-ui" font-size="12" fill="#c3c6d2"><text x="91" y="392">Atlas migration</text><text x="91" y="484">Nimbus mobile</text><text x="91" y="576">Billing cutover</text><text x="91" y="668">Orbit system</text></g>
+  <rect x="326" y="372" width="420" height="38" rx="9" fill="#332d68" stroke="#7c6cf2"/><rect x="326" y="372" width="309" height="38" rx="9" fill="#4e438f"/>
+  <rect x="420" y="464" width="345" height="38" rx="9" fill="#173846" stroke="#3ca6c8"/><rect x="420" y="464" width="167" height="38" rx="9" fill="#24596a"/>
+  <rect x="292" y="556" width="397" height="38" rx="9" fill="#4a2230" stroke="#e36d8c"/><rect x="292" y="556" width="98" height="38" rx="9" fill="#783448"/>
+  <rect x="650" y="648" width="360" height="38" rx="9" fill="#463719" stroke="#dda646"/>
+  <circle cx="755" cy="461" r="8" fill="#e4ae5b" stroke="#11141e" stroke-width="4"/>
+  <circle cx="1234" cy="405" r="60" fill="#2d2857" stroke="#3d4050"/><circle cx="1234" cy="405" r="28" fill="#7c6cf2"/>
+  <text x="1130" y="530" fill="#f2f3f7" font-family="system-ui" font-size="21" font-weight="600">Pick a flight path</text>
+  <text x="1130" y="557" fill="#8e95a9" font-family="system-ui" font-size="11">Milestones, activity, and agent</text><text x="1130" y="574" fill="#8e95a9" font-family="system-ui" font-size="11">judgment stay one click away.</text>
+</svg>

@@ -1,0 +1,31 @@
+{
+  "viewer": { "organization": { "id": "workspace-1", "name": "Acme", "urlKey": "acme" } },
+  "projects": {
+    "nodes": [
+      {
+        "id": "project-1",
+        "name": "Launch",
+        "status": { "name": "In Progress", "type": "started" },
+        "startDate": "2026-07-01",
+        "targetDate": "2026-08-01",
+        "color": "#7c6cf2",
+        "url": "https://linear.app/acme/project/launch",
+        "updatedAt": "2026-07-20T08:00:00Z",
+        "projectMilestones": { "nodes": [{ "id": "milestone-1", "name": "Beta", "targetDate": "2026-07-25" }] },
+        "issues": {
+          "nodes": [
+            { "id": "issue-1", "identifier": "ACM-1", "title": "Build beta", "estimate": 5, "completedAt": "2026-07-20T08:00:00Z", "updatedAt": "2026-07-20T08:00:00Z", "state": { "name": "Done", "type": "completed" }, "projectMilestone": { "id": "milestone-1" } },
+            { "id": "issue-2", "identifier": "ACM-2", "title": "QA beta", "estimate": 3, "completedAt": null, "updatedAt": "2026-07-22T09:00:00Z", "state": { "name": "In Progress", "type": "started" }, "projectMilestone": { "id": "milestone-1" } },
+            { "id": "issue-3", "identifier": "ACM-3", "title": "Canceled scope", "estimate": 8, "completedAt": null, "updatedAt": "2026-07-18T09:00:00Z", "state": { "name": "Canceled", "type": "canceled" }, "projectMilestone": null }
+          ]
+        }
+      },
+      {
+        "id": "project-closed",
+        "name": "Old launch",
+        "status": { "name": "Completed", "type": "completed" },
+        "updatedAt": "2026-06-01T08:00:00Z"
+      }
+    ]
+  }
+}
