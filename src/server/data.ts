@@ -7,10 +7,10 @@ export function snapshotPath(root: string): string {
   return path.join(root, ".linearsky", "snapshot.json");
 }
 
-export async function readSkyData(root: string): Promise<SkyData> {
+export async function readSkyData(root: string, refreshFailed = false): Promise<SkyData> {
   const snapshot = JSON.parse(await fs.readFile(snapshotPath(root), "utf8")) as SkySnapshot;
   const { annotations, warnings } = await readAnnotations(root);
-  return { snapshot, annotations, annotationWarnings: warnings };
+  return { snapshot, annotations, annotationWarnings: warnings, refreshFailed };
 }
 
 export async function writeSnapshot(root: string, snapshot: SkySnapshot): Promise<void> {

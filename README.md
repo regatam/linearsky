@@ -67,8 +67,8 @@ The local server watches that folder and updates the open view immediately. Malf
 
 ## How the signals work
 
-- **Progress** uses completed/total issues, weighted by estimates when estimates are present.
-- **Pace** compares percent time elapsed with percent work complete. Green, amber, and red thresholds live in [`src/shared/config.ts`](src/shared/config.ts).
+- **Progress** uses completed/total issues, weighted by estimates when estimates are present; each unestimated issue in a mixed project receives one unit of weight.
+- **Pace** compares percent time elapsed with percent work complete. Projects missing either date show no pace classification. Green, amber, and red thresholds live in [`src/shared/config.ts`](src/shared/config.ts).
 - **Milestones** appear as diamonds on each project path and fill when their linked issues are complete.
 - **Staleness** marks projects with no issue movement in seven days.
 - **Missing dates** move to the holding-pattern shelf instead of disappearing.

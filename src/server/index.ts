@@ -9,6 +9,7 @@ export interface ServerOptions {
   root: string;
   port: number;
   refresh: () => Promise<void>;
+  initialRefreshFailed?: boolean;
 }
 
 const MIME: Record<string, string> = {
@@ -24,16 +25,23 @@ export async function startServer(options: ServerOptions): Promise<{ url: string
   const clientRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../client");
   await fs.access(path.join(clientRoot, "index.html"));
   const streams = new Set<ServerResponse>();
+  let refreshFailed = options.initialRefreshFailed ?? false;
 
   const server = createServer(async (request, response) => {
     try {
       const url = new URL(request.url ?? "/", "http://localhost");
       if (url.pathname === "/api/data" && request.method === "GET") {
-        return json(response, 200, await readSkyData(options.root));
+        return json(response, 200, await readSkyData(options.root, refreshFailed));
       }
       if (url.pathname === "/api/refresh" && request.method === "POST") {
-        await options.refresh();
-        const data = await readSkyData(options.root);
+        try {
+          await options.refresh();
+          refreshFailed = false;
+        } catch (error) {
+          refreshFailed = true;
+          throw error;
+        }
+        const data = await readSkyData(options.root, refreshFailed);
         broadcast(streams, data);
         return json(response, 200, data);
       }
@@ -61,7 +69,7 @@ export async function startServer(options: ServerOptions): Promise<{ url: string
   const watcher = watch(annotationDirectory, { persistent: false }, () => {
     clearTimeout(debounce);
     debounce = setTimeout(async () => {
-      try { broadcast(streams, await readSkyData(options.root)); } catch { /* next valid write will retry */ }
+      try { broadcast(streams, await readSkyData(options.root, refreshFailed)); } catch { /* next valid write will retry */ }
     }, 80);
   });
 

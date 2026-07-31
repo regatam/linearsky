@@ -7,6 +7,8 @@ export interface IssueRollup {
   completed: number;
   totalEstimate: number;
   completedEstimate: number;
+  unestimated: number;
+  completedUnestimated: number;
   progress: number;
 }
 
@@ -72,6 +74,7 @@ export interface SkyData {
   snapshot: SkySnapshot;
   annotations: Annotation[];
   annotationWarnings: AnnotationWarning[];
+  refreshFailed: boolean;
 }
 
 declare global {

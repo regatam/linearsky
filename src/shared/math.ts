@@ -5,7 +5,10 @@ const DAY_MS = 86_400_000;
 
 export function progressFromRollup(rollup: Omit<IssueRollup, "progress">): number {
   if (rollup.totalEstimate > 0) {
-    return clamp(rollup.completedEstimate / rollup.totalEstimate);
+    return clamp(
+      (rollup.completedEstimate + rollup.completedUnestimated)
+      / (rollup.totalEstimate + rollup.unestimated),
+    );
   }
   return rollup.total > 0 ? clamp(rollup.completed / rollup.total) : 0;
 }
@@ -18,7 +21,8 @@ export function timeElapsed(startDate: string | null, targetDate: string | null,
   return clamp((now.getTime() - start) / (end - start));
 }
 
-export function projectPace(project: Pick<SkyProject, "startDate" | "targetDate" | "rollup">, now = new Date()): Pace {
+export function projectPace(project: Pick<SkyProject, "startDate" | "targetDate" | "rollup">, now = new Date()): Pace | null {
+  if (!project.startDate || !project.targetDate) return null;
   const elapsed = timeElapsed(project.startDate, project.targetDate, now) * 100;
   const completed = project.rollup.progress * 100;
   const lag = elapsed - completed;

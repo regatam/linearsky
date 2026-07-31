@@ -162,13 +162,15 @@ function rollupIssues(issues: RawIssue[]): IssueRollup {
     const estimate = Math.max(0, issue.estimate ?? 0);
     const completed = Boolean(issue.completedAt) || issue.state?.type === "completed";
     result.total += 1;
-    result.totalEstimate += estimate;
+    if (estimate > 0) result.totalEstimate += estimate;
+    else result.unestimated += 1;
     if (completed) {
       result.completed += 1;
-      result.completedEstimate += estimate;
+      if (estimate > 0) result.completedEstimate += estimate;
+      else result.completedUnestimated += 1;
     }
     return result;
-  }, { total: 0, completed: 0, totalEstimate: 0, completedEstimate: 0 });
+  }, { total: 0, completed: 0, totalEstimate: 0, completedEstimate: 0, unestimated: 0, completedUnestimated: 0 });
   return { ...base, progress: progressFromRollup(base) };
 }
 

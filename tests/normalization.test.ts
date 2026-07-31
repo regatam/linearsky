@@ -11,10 +11,10 @@ describe("Linear GraphQL normalization", () => {
       id: "project-1",
       state: "started",
       latestActivityAt: "2026-07-22T09:00:00Z",
-      rollup: { total: 2, completed: 1, totalEstimate: 8, completedEstimate: 5 },
+      rollup: { total: 3, completed: 1, totalEstimate: 8, completedEstimate: 5, unestimated: 1, completedUnestimated: 0 },
     });
-    expect(snapshot.projects[0].rollup.progress).toBe(0.625);
-    expect(snapshot.projects[0].milestones[0].rollup.progress).toBe(0.625);
+    expect(snapshot.projects[0].rollup.progress).toBeCloseTo(5 / 9);
+    expect(snapshot.projects[0].milestones[0].rollup.progress).toBeCloseTo(5 / 9);
     expect(snapshot.projects[0].recentActivity[0].identifier).toBe("ACM-2");
   });
 });

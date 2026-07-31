@@ -80,9 +80,9 @@ export default function App() {
       </header>
 
       <main id="top">
-        {staleSnapshot && (
+        {(staleSnapshot || data.refreshFailed) && (
           <div className="stale-banner" role="status">
-            <span>Stale as of {formatTimestamp(data.snapshot.pulledAt)}</span> Showing the last local snapshot; pull again when Linear is reachable.
+            <span>{data.refreshFailed ? "Linear refresh failed" : `Stale as of ${formatTimestamp(data.snapshot.pulledAt)}`}</span> Showing the local snapshot from {formatTimestamp(data.snapshot.pulledAt)}; pull again when Linear is reachable.
           </div>
         )}
         {error && <div className="error-banner" role="alert">{error}</div>}
@@ -259,7 +259,9 @@ function ProjectPanel({ project, annotations, onClose }: { project: SkyProject |
       <button className="panel-close" onClick={onClose} aria-label="Close project detail">×</button>
       <div className="panel-project-heading">
         <i style={{ background: project.color }} />
-        <span className={`pace-badge pace-${pace}`}>{pace.replace("-", " ")}</span>
+        {pace
+          ? <span className={`pace-badge pace-${pace}`}>{pace.replace("-", " ")}</span>
+          : <span className="date-status">No dates</span>}
         <h3>{project.name}</h3>
         <p>{formatLongDate(project.startDate)} — {formatLongDate(project.targetDate)}</p>
       </div>

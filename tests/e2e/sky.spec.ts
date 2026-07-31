@@ -16,4 +16,8 @@ test("renders the complete fixture sky and opens agent judgment", async ({ page 
   await expect(panel).toContainText("Agent judgment");
   await expect(panel).toContainText("offline sync is carrying too much launch risk");
   await expect(panel).toContainText("high confidence");
+
+  await page.getByRole("button", { name: "Compass research sprint" }).click();
+  await expect(panel).toContainText("No dates");
+  await expect(panel.locator(".pace-badge")).toHaveCount(0);
 });

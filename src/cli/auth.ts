@@ -1,9 +1,11 @@
 import { promises as fs } from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import { createInterface } from "node:readline/promises";
+import type { ReadStream, WriteStream } from "node:tty";
 
 interface AuthConfig { apiKey: string }
+type HiddenInput = Pick<ReadStream, "isRaw" | "isPaused" | "on" | "off" | "pause" | "resume" | "setRawMode">;
+type HiddenOutput = Pick<WriteStream, "write">;
 
 export async function ensureApiKey(forcePrompt = false): Promise<string> {
   if (!forcePrompt && process.env.LINEAR_API_KEY?.trim()) return process.env.LINEAR_API_KEY.trim();
@@ -21,13 +23,59 @@ export async function ensureApiKey(forcePrompt = false): Promise<string> {
   if (!process.stdin.isTTY) {
     throw new Error("No Linear API key found. Run linearsky in a terminal once, or set LINEAR_API_KEY.");
   }
-  const prompt = createInterface({ input: process.stdin, output: process.stdout });
-  const apiKey = (await prompt.question("Linear personal API key: ")).trim();
-  prompt.close();
+  const apiKey = (await hiddenQuestion("Linear personal API key: ")).trim();
   if (!apiKey) throw new Error("A Linear API key is required.");
   await fs.mkdir(path.dirname(configFile), { recursive: true, mode: 0o700 });
   await fs.writeFile(configFile, `${JSON.stringify({ apiKey }, null, 2)}\n`, { mode: 0o600 });
   return apiKey;
+}
+
+export function hiddenQuestion(
+  message: string,
+  input: HiddenInput = process.stdin,
+  output: HiddenOutput = process.stdout,
+): Promise<string> {
+  const wasRaw = input.isRaw;
+  const wasPaused = input.isPaused();
+  let value = "";
+
+  return new Promise<string>((resolve, reject) => {
+    let settled = false;
+    let rawEnabled = false;
+    const restore = () => {
+      input.off("data", onData);
+      input.off("error", onError);
+      if (rawEnabled) input.setRawMode(wasRaw);
+      if (wasPaused) input.pause();
+      output.write("\n");
+    };
+    const finish = (result: string | Error) => {
+      if (settled) return;
+      settled = true;
+      restore();
+      if (result instanceof Error) reject(result);
+      else resolve(result);
+    };
+    const onError = (error: Error) => finish(error);
+    const onData = (chunk: Buffer | string) => {
+      for (const character of chunk.toString("utf8")) {
+        if (character === "\r" || character === "\n") return finish(value);
+        if (character === "\u0003" || character === "\u0004") return finish(new Error("API key entry cancelled."));
+        if (character === "\u007f" || character === "\b") value = value.slice(0, -1);
+        else value += character;
+      }
+    };
+    try {
+      output.write(message);
+      input.on("data", onData);
+      input.on("error", onError);
+      input.setRawMode(true);
+      rawEnabled = true;
+      input.resume();
+    } catch (error) {
+      finish(error instanceof Error ? error : new Error(String(error)));
+    }
+  });
 }
 
 export function authConfigPath(): string {

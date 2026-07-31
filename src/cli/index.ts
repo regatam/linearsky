@@ -43,6 +43,7 @@ async function pullCommand(): Promise<void> {
 
 async function startCommand(): Promise<void> {
   let apiKey: string | undefined;
+  let initialRefreshFailed = false;
   if (fixtureMode) {
     await prepareFixtureWorkspace();
   } else {
@@ -55,6 +56,7 @@ async function startCommand(): Promise<void> {
         apiKey = await ensureApiKey(true);
         await writeSnapshot(root, await pullLinearSnapshot(apiKey));
       } else if (await hasSnapshot(root)) {
+        initialRefreshFailed = true;
         console.warn(`linearsky: ${error instanceof Error ? error.message : String(error)} Serving the last local snapshot.`);
       } else {
         throw error;
@@ -66,6 +68,7 @@ async function startCommand(): Promise<void> {
   const running = await startServer({
     root,
     port,
+    initialRefreshFailed,
     refresh: async () => {
       if (fixtureMode) await prepareFixtureWorkspace(false);
       else await writeSnapshot(root, await pullLinearSnapshot(apiKey ?? await ensureApiKey()));
@@ -99,6 +102,7 @@ function openBrowser(url: string): void {
   const commandName = process.platform === "darwin" ? "open" : process.platform === "win32" ? "cmd" : "xdg-open";
   const commandArgs = process.platform === "win32" ? ["/c", "start", "", url] : [url];
   const child = spawn(commandName, commandArgs, { detached: true, stdio: "ignore" });
+  child.once("error", (error) => console.warn(`linearsky: could not open the browser: ${error.message}`));
   child.unref();
 }
 

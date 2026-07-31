@@ -12,10 +12,10 @@ const projects: SkySnapshot["projects"] = [
     url: "https://linear.app/acme/project/atlas-migration",
     updatedAt: "2026-07-30T16:12:00.000Z",
     latestActivityAt: "2026-07-30T16:12:00.000Z",
-    rollup: { total: 24, completed: 17, totalEstimate: 72, completedEstimate: 54, progress: 0.75 },
+    rollup: { total: 24, completed: 17, totalEstimate: 72, completedEstimate: 54, unestimated: 0, completedUnestimated: 0, progress: 0.75 },
     milestones: [
-      { id: "atlas-m1", name: "Data freeze", targetDate: "2026-07-18", rollup: { total: 8, completed: 8, totalEstimate: 21, completedEstimate: 21, progress: 1 } },
-      { id: "atlas-m2", name: "Parallel run", targetDate: "2026-08-07", rollup: { total: 9, completed: 5, totalEstimate: 29, completedEstimate: 18, progress: 0.62 } },
+      { id: "atlas-m1", name: "Data freeze", targetDate: "2026-07-18", rollup: { total: 8, completed: 8, totalEstimate: 21, completedEstimate: 21, unestimated: 0, completedUnestimated: 0, progress: 1 } },
+      { id: "atlas-m2", name: "Parallel run", targetDate: "2026-08-07", rollup: { total: 9, completed: 5, totalEstimate: 29, completedEstimate: 18, unestimated: 0, completedUnestimated: 0, progress: 0.62 } },
     ],
     recentActivity: [
       { id: "ATL-42", identifier: "ATL-42", title: "Verify customer ledger totals", state: "In Review", updatedAt: "2026-07-30T16:12:00.000Z" },
@@ -33,10 +33,10 @@ const projects: SkySnapshot["projects"] = [
     url: "https://linear.app/acme/project/nimbus-mobile-beta",
     updatedAt: "2026-07-29T18:40:00.000Z",
     latestActivityAt: "2026-07-29T18:40:00.000Z",
-    rollup: { total: 32, completed: 15, totalEstimate: 89, completedEstimate: 43, progress: 0.483 },
+    rollup: { total: 32, completed: 15, totalEstimate: 89, completedEstimate: 43, unestimated: 0, completedUnestimated: 0, progress: 0.483 },
     milestones: [
-      { id: "nimbus-m1", name: "Internal flight", targetDate: "2026-07-28", rollup: { total: 10, completed: 10, totalEstimate: 26, completedEstimate: 26, progress: 1 } },
-      { id: "nimbus-m2", name: "TestFlight beta", targetDate: "2026-08-11", rollup: { total: 14, completed: 4, totalEstimate: 42, completedEstimate: 13, progress: 0.31 } },
+      { id: "nimbus-m1", name: "Internal flight", targetDate: "2026-07-28", rollup: { total: 10, completed: 10, totalEstimate: 26, completedEstimate: 26, unestimated: 0, completedUnestimated: 0, progress: 1 } },
+      { id: "nimbus-m2", name: "TestFlight beta", targetDate: "2026-08-11", rollup: { total: 14, completed: 4, totalEstimate: 42, completedEstimate: 13, unestimated: 0, completedUnestimated: 0, progress: 0.31 } },
     ],
     recentActivity: [
       { id: "NIM-88", identifier: "NIM-88", title: "Resolve offline sync conflicts", state: "In Progress", updatedAt: "2026-07-29T18:40:00.000Z" },
@@ -54,10 +54,10 @@ const projects: SkySnapshot["projects"] = [
     url: "https://linear.app/acme/project/horizon-billing-cutover",
     updatedAt: "2026-07-18T09:30:00.000Z",
     latestActivityAt: "2026-07-18T09:30:00.000Z",
-    rollup: { total: 20, completed: 5, totalEstimate: 61, completedEstimate: 15, progress: 0.246 },
+    rollup: { total: 20, completed: 5, totalEstimate: 61, completedEstimate: 15, unestimated: 0, completedUnestimated: 0, progress: 0.246 },
     milestones: [
-      { id: "horizon-m1", name: "Sandbox signoff", targetDate: "2026-07-12", rollup: { total: 6, completed: 5, totalEstimate: 18, completedEstimate: 15, progress: 0.83 } },
-      { id: "horizon-m2", name: "Production cutover", targetDate: "2026-08-03", rollup: { total: 8, completed: 0, totalEstimate: 25, completedEstimate: 0, progress: 0 } },
+      { id: "horizon-m1", name: "Sandbox signoff", targetDate: "2026-07-12", rollup: { total: 6, completed: 5, totalEstimate: 18, completedEstimate: 15, unestimated: 0, completedUnestimated: 0, progress: 0.83 } },
+      { id: "horizon-m2", name: "Production cutover", targetDate: "2026-08-03", rollup: { total: 8, completed: 0, totalEstimate: 25, completedEstimate: 0, unestimated: 0, completedUnestimated: 0, progress: 0 } },
     ],
     recentActivity: [
       { id: "HOR-61", identifier: "HOR-61", title: "Reconcile tax provider edge cases", state: "Blocked", updatedAt: "2026-07-18T09:30:00.000Z" },
@@ -74,9 +74,9 @@ const projects: SkySnapshot["projects"] = [
     url: "https://linear.app/acme/project/orbit-design-system",
     updatedAt: "2026-07-30T20:00:00.000Z",
     latestActivityAt: "2026-07-30T20:00:00.000Z",
-    rollup: { total: 18, completed: 1, totalEstimate: 53, completedEstimate: 2, progress: 0.038 },
+    rollup: { total: 18, completed: 1, totalEstimate: 53, completedEstimate: 2, unestimated: 0, completedUnestimated: 0, progress: 0.038 },
     milestones: [
-      { id: "orbit-m1", name: "Foundations", targetDate: "2026-08-21", rollup: { total: 6, completed: 1, totalEstimate: 18, completedEstimate: 2, progress: 0.11 } },
+      { id: "orbit-m1", name: "Foundations", targetDate: "2026-08-21", rollup: { total: 6, completed: 1, totalEstimate: 18, completedEstimate: 2, unestimated: 0, completedUnestimated: 0, progress: 0.11 } },
     ],
     recentActivity: [
       { id: "ORB-12", identifier: "ORB-12", title: "Publish token naming RFC", state: "Done", updatedAt: "2026-07-30T20:00:00.000Z" },
@@ -93,7 +93,7 @@ const projects: SkySnapshot["projects"] = [
     url: "https://linear.app/acme/project/compass-research-sprint",
     updatedAt: "2026-07-26T13:15:00.000Z",
     latestActivityAt: "2026-07-26T13:15:00.000Z",
-    rollup: { total: 7, completed: 2, totalEstimate: 0, completedEstimate: 0, progress: 0.286 },
+    rollup: { total: 7, completed: 2, totalEstimate: 0, completedEstimate: 0, unestimated: 7, completedUnestimated: 2, progress: 0.286 },
     milestones: [],
     recentActivity: [
       { id: "COM-7", identifier: "COM-7", title: "Synthesize discovery calls", state: "In Progress", updatedAt: "2026-07-26T13:15:00.000Z" },

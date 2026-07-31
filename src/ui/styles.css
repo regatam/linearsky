@@ -195,6 +195,7 @@ main { width: min(1600px, 100%); margin: 0 auto; padding: 0 clamp(18px, 4vw, 62p
 .panel-project-heading h3 { margin: 11px 0 6px; padding-right: 22px; font-size: 22px; font-weight: 590; line-height: 1.15; letter-spacing: -.035em; }
 .panel-project-heading p { margin: 0; color: var(--muted); font-size: 10px; }
 .pace-badge, .annotation-status { display: inline-flex; border-radius: 99px; padding: 4px 7px; font-size: 8px; font-weight: 760; letter-spacing: .08em; text-transform: uppercase; }
+.date-status { display: inline-flex; color: var(--muted); font-size: 9px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
 .pace-badge.pace-on-track, .annotation-on-track { color: var(--green); background: color-mix(in srgb, var(--green) 12%, transparent); }
 .pace-badge.pace-at-risk, .annotation-at-risk { color: var(--amber); background: color-mix(in srgb, var(--amber) 12%, transparent); }
 .pace-badge.pace-off-track, .annotation-needs-attention { color: var(--red); background: color-mix(in srgb, var(--red) 12%, transparent); }

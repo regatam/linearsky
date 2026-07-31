@@ -20,6 +20,7 @@
   "scripts": {
     "clean": "node -e \"require('node:fs').rmSync('dist', { recursive: true, force: true })\"",
     "build": "npm run clean && npm run build:client && npm run build:node",
+    "prepack": "npm run build",
     "build:client": "vite build",
     "build:node": "tsc -p tsconfig.node.json",
     "dev": "vite",
