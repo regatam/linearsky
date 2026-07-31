@@ -1,14 +1,14 @@
-# linearsky — design spec (2026-07-31)
+# linearsky — v1 design
 
-Working name: **linearsky**. Status: approved in brainstorm with Rene 2026-07-31. This file moves into the project repo (`docs/`) when the repo is created.
+Status: implemented v1 baseline. This document owns the product boundaries and architecture; the README owns installation and common usage.
 
 ## Problem
 
-Linear has no company-level bird's-eye view. Rene wants a flight-search-style calendar: every active project as a colored span across its dates, seen at a glance, with honest signals about whether each is actually on track — and a way for his own CLI agents to add judgment and (later) take action.
+Linear has no company-level bird's-eye view. linearsky provides a flight-search-style calendar: every active project as a colored span across its dates, seen at a glance, with honest signals about whether each is actually on track — and a way for external CLI agents to add judgment.
 
 ## Product decisions (locked)
 
-- **Audience:** public, open-source from day one (`regatam`). Builder-in-public artifact #2 after Hallow.
+- **Audience:** public, open-source npm package; `LICENSE` owns the license terms.
 - **Form:** local-first app, `npx linearsky`. No hosted mode in v1.
 - **Intelligence:** the app contains **zero LLM**. All judgment comes from whatever CLI agent the user already runs, through disk-file contracts. No model keys, no inference billing in the app.
 - **Default scene:** "company sky" — all active projects on one calendar.
@@ -30,10 +30,10 @@ The app is a deterministic viewer. The agent is a guest analyst. Disk files are 
 - `start` — ensure auth, pull snapshot, serve UI, open browser.
 - `pull` — refresh snapshot only.
 - `export` — render a self-contained static HTML file of the current sky.
-- First run: prompt for a Linear personal API key; store in `~/.config/linearsky/`; never transmitted anywhere but api.linear.app.
+- First run: prompt for a Linear personal API key; store it in the user's global config directory; never transmit it anywhere but api.linear.app. The README owns the exact user-facing path and environment override.
 
 ### Snapshot (`.linearsky/snapshot.json`)
-Lives in the directory where the user runs the CLI (their chosen "sky workspace" folder), so agents launched in that same directory find snapshot and annotations in cwd by convention. Auth stays global in `~/.config/linearsky/`; data stays local to the folder.
+Lives in the directory where the user runs the CLI (their chosen "sky workspace" folder), so agents launched in that same directory find snapshot and annotations in cwd by convention. Auth stays in the user's global config directory; data stays local to the folder.
 Pulled via Linear GraphQL: projects (id, name, state, startDate, targetDate, color), milestones (name, targetDate, issue rollup), per-project issue counts by state, estimates when present, latest activity timestamps. Read-only mirror with a `pulledAt` stamp.
 
 ### UI — the sky
@@ -42,30 +42,16 @@ Pulled via Linear GraphQL: projects (id, name, state, startDate, targetDate, col
   - **Progress fill:** completed/total issues (estimate-weighted when estimates exist).
   - **Pace tint:** % time elapsed vs % work done → green/amber/red shift.
   - **Milestone ticks:** at each milestone targetDate, filled when its issues are done.
-  - **Staleness dot:** no issue activity in N days (default 7, configurable).
+  - **Staleness dot:** computed from the threshold centralized in `src/shared/config.ts`; the README owns the user-facing semantics.
 - Click a span → highlight its date range (flight-picker moment); side panel with milestones, recent activity, and agent annotations.
 - Projects without dates render on an "undated" shelf below the calendar — visible, never silently dropped.
 - Aesthetic bar is portfolio-grade; this is a public showpiece.
 
-### Annotations (`.linearsky/annotations/<project-slug>.md`)
-Markdown + frontmatter:
-
-```markdown
----
-project: <linear project id>
-status: on-track | at-risk | needs-attention
-confidence: low | medium | high
-sources: [linear, slack]
-updated: 2026-07-31T18:00:00Z
-by: <agent/model name>
----
-Free-prose assessment, links, reasoning.
-```
-
-UI file-watches the folder; renders badge + note in the side panel and a subtle marker on the span. Malformed files are skipped with a visible warning.
+### Annotations (`.linearsky/annotations/*.md`)
+The `sky-assess` skill owns the required Markdown and frontmatter schema, which `src/server/annotations.ts` enforces. The UI file-watches the folder, renders the assessment in the side panel and a subtle marker on the span, and surfaces malformed files as warnings without crashing.
 
 ### Skills (`skills/` in repo)
-- **v1 ships one:** `sky-assess` — instructions for any CLI agent: read snapshot, optionally cross-check Slack/Linear through the agent's own MCP connections, write annotations per the schema above, be honest (no vibes-only "on-track").
+- **v1 ships one:** `sky-assess` — instructions for any CLI agent: read snapshot, optionally cross-check Slack/Linear through the agent's own MCP connections, write annotations using the skill-owned schema, and be honest (no vibes-only "on-track").
 - Named future slots, not built: `sky-nudge` (draft Slack bumps for human approval), `sky-dispatch` (hand a doable ticket to an agent).
 
 ## Data flow
@@ -88,9 +74,3 @@ UI file-watches the folder; renders badge + note in the side panel and a subtle 
 ## Explicitly out of v1
 
 Hosted mode, OAuth, Slack sending, agent dispatching, Linear write-back, auto-polling, per-person workload lanes. Each is a socket, not a feature.
-
-## Open items for implementation planning
-
-- Final name check (npm availability) before repo creation.
-- Staleness threshold + pace formula constants live in one config module.
-- License: MIT (matches Hallow posture) unless Rene says otherwise.

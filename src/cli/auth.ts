@@ -1,10 +1,18 @@
 import { promises as fs } from "node:fs";
 import os from "node:os";
 import path from "node:path";
-import type { ReadStream, WriteStream } from "node:tty";
+import type { WriteStream } from "node:tty";
 
 interface AuthConfig { apiKey: string }
-type HiddenInput = Pick<ReadStream, "isRaw" | "isPaused" | "on" | "off" | "pause" | "resume" | "setRawMode">;
+interface HiddenInput {
+  isRaw: boolean;
+  isPaused(): boolean;
+  on(event: string, listener: (...args: any[]) => void): unknown;
+  off(event: string, listener: (...args: any[]) => void): unknown;
+  pause(): unknown;
+  resume(): unknown;
+  setRawMode(mode: boolean): unknown;
+}
 type HiddenOutput = Pick<WriteStream, "write">;
 
 export async function ensureApiKey(forcePrompt = false): Promise<string> {
